@@ -1,0 +1,19 @@
+<koroshiya.com.lswipe.CustomDrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="koroshiya.com.lswipe.SwipeActivity"
+    android:id="@+id/vw_pane_drawer"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    >
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/vw_pane_rv"
+        android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:layout_gravity="start"
+        />
+</koroshiya.com.lswipe.CustomDrawerLayout>
