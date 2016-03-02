@@ -1,7 +1,7 @@
-<koroshiya.com.lswipe.CustomDrawerLayout
+<koroshiya.com.lswipe.views.CustomDrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="koroshiya.com.lswipe.SwipeActivity"
+    tools:context=".activities.SwipeActivity"
     android:id="@+id/vw_pane_drawer"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
@@ -16,4 +16,4 @@
         android:dividerHeight="0dp"
         android:layout_gravity="start"
         />
-</koroshiya.com.lswipe.CustomDrawerLayout>
+</koroshiya.com.lswipe.views.CustomDrawerLayout>

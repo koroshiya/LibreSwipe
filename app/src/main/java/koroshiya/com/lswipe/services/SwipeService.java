@@ -1,4 +1,4 @@
-package koroshiya.com.lswipe;
+package koroshiya.com.lswipe.services;
 
 import android.app.Service;
 import android.content.Context;
@@ -17,6 +17,14 @@ import android.view.WindowManager;
 import java.util.Collections;
 import java.util.List;
 
+import koroshiya.com.lswipe.adapters.NavigationAdapter;
+import koroshiya.com.lswipe.R;
+
+/**
+ * Service which should remain running in the background.
+ * This is the service responsible for handling the DrawerLayout.
+ * If this service is killed, LibreSwipe stops.
+ **/
 public class SwipeService extends Service {
 
     private WindowManager mWindowManager;

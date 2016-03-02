@@ -1,9 +1,17 @@
-package koroshiya.com.lswipe;
+package koroshiya.com.lswipe.views;
 
 import android.content.Context;
 import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
 
+/**
+ * CustomDrawerLayout is used in place of DrawerLayout so as to allow for
+ * a DrawerLayout to be bound to the WindowManager.
+ *
+ * Attempting to bind a DrawerLayout to WindowManager results in an IllegalArgumentException,
+ * as DrawerLayout must be measured with MeasureSpec.EXACTLY, which it
+ * cannot be in this context.
+ **/
 public class CustomDrawerLayout extends DrawerLayout {
 
     public CustomDrawerLayout(Context context) {

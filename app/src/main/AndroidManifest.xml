@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".SwipeService"
+            android:name=".services.SwipeService"
             android:enabled="true"
             >
         </service>
 
         <activity
-            android:name=".SwipeActivity"
+            android:name=".activities.SwipeActivity"
             android:label="@string/title_activity_swipe"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
             >

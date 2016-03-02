@@ -1,4 +1,4 @@
-package koroshiya.com.lswipe;
+package koroshiya.com.lswipe.adapters;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -21,6 +21,13 @@ import android.view.ViewParent;
 
 import java.util.List;
 
+import koroshiya.com.lswipe.R;
+
+/**
+ * Adapter for the RecyclerView used to show the app list.
+ * This class accepts a list of apps, then displays each as a separate
+ * card.
+ **/
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> {
 
     private final List<ResolveInfo> items;
