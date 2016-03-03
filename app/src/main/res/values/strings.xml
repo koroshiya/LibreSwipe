@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">LibreSwipe</string>
-    <string name="title_activity_swipe">LibreSwipe Settings</string>
+    <string name="title_activity_swipe">LibreSwipe</string>
+    <string name="title_activity_settings">Settings</string>
+
+
+    <string name="title_activity_main_menu">LibreSwipe</string>
+    <string name="pref_startup">pref_startup</string>
+    <string name="pref_title_startup">Startup</string>
+    <string name="pref_summary_startup">Start LibreSwipe on boot</string>
+
 </resources>

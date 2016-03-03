@@ -67,7 +67,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
             view = itemView;
         }
 
-        public void setDataOnView(final int cur) {
+        public void setDataOnView(int cur) {
 
             final Context c = iv.getContext();
             final ResolveInfo info = items.get(cur);
