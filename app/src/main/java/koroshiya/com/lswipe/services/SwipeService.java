@@ -42,7 +42,7 @@ public class SwipeService extends Service {
     private boolean drawerClosed = true;
 
     public static SwipeService serviceRunning = null;
-    private static int PERSISTENT_NOTIFICATION = 0;
+    private final static int PERSISTENT_NOTIFICATION = 0;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, SwipeService.class);
