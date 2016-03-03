@@ -6,4 +6,10 @@
         android:summary="@string/pref_summary_startup"
         android:defaultValue="false" />
 
+    <CheckBoxPreference
+        android:key="@string/pref_notification"
+        android:title="@string/pref_title_notification"
+        android:summary="@string/pref_summary_notification"
+        android:defaultValue="true" />
+
 </PreferenceScreen>

@@ -11,6 +11,7 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.NotificationCompat;
@@ -117,25 +118,29 @@ public class SwipeService extends Service {
 
         mWindowManager.addView(v, mPaperParams);
 
+        boolean bool_notification = PreferenceManager
+                                        .getDefaultSharedPreferences(this)
+                                        .getBoolean(getString(R.string.pref_notification), true);
+        if (bool_notification) {
+            Intent notificationIntent = new Intent(this, MainActivity.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            Resources res = getResources();
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-        Resources res = getResources();
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+            builder.setContentIntent(contentIntent)
+                    .setSmallIcon(R.drawable.ic_touch_app_black_24dp)
+                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.ic_touch_app_black_24dp))
+                    .setTicker("LibreSwipe is running - Tap to open settings")
+                    .setWhen(System.currentTimeMillis())
+                    .setAutoCancel(true)
+                    .setContentTitle("LibreSwipe")
+                    .setContentText("LibreSwipe is running - Tap to open settings");
+            Notification n = builder.build();
 
-        builder.setContentIntent(contentIntent)
-                .setSmallIcon(R.drawable.ic_touch_app_black_24dp)
-                .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.ic_touch_app_black_24dp))
-                .setTicker("LibreSwipe is running - Tap to open settings")
-                .setWhen(System.currentTimeMillis())
-                .setAutoCancel(true)
-                .setContentTitle("LibreSwipe")
-                .setContentText("LibreSwipe is running - Tap to open settings");
-        Notification n = builder.build();
-
-        nm.notify(0, n);
+            nm.notify(0, n);
+        }
 
         serviceRunning = this;
 

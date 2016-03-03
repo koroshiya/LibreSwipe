@@ -8,5 +8,8 @@
     <string name="pref_startup">pref_startup</string>
     <string name="pref_title_startup">Startup</string>
     <string name="pref_summary_startup">Start LibreSwipe on boot</string>
+    <string name="pref_notification">pref_notification</string>
+    <string name="pref_title_notification">Notification</string>
+    <string name="pref_summary_notification">Enable persistent notification while running</string>
 
 </resources>
