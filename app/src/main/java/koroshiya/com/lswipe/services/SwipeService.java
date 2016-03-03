@@ -1,13 +1,19 @@
 package koroshiya.com.lswipe.services;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +24,7 @@ import android.view.WindowManager;
 import java.util.Collections;
 import java.util.List;
 
+import koroshiya.com.lswipe.activities.MainActivity;
 import koroshiya.com.lswipe.adapters.NavigationAdapter;
 import koroshiya.com.lswipe.R;
 
@@ -111,7 +118,7 @@ public class SwipeService extends Service {
         mWindowManager.addView(v, mPaperParams);
 
 
-        /*Intent notificationIntent = new Intent(this, SettingsActivity.class);
+        Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -128,7 +135,7 @@ public class SwipeService extends Service {
                 .setContentText("LibreSwipe is running - Tap to open settings");
         Notification n = builder.build();
 
-        nm.notify(0, n);*/
+        nm.notify(0, n);
 
         serviceRunning = this;
 
