@@ -40,7 +40,9 @@ public class SwipeService extends Service {
     private WindowManager.LayoutParams mPaperParams;
     private DrawerLayout v;
     private boolean drawerClosed = true;
+
     public static SwipeService serviceRunning = null;
+    private static int PERSISTENT_NOTIFICATION = 0;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, SwipeService.class);
@@ -139,7 +141,7 @@ public class SwipeService extends Service {
                     .setContentText("LibreSwipe is running - Tap to open settings");
             Notification n = builder.build();
 
-            nm.notify(0, n);
+            nm.notify(PERSISTENT_NOTIFICATION, n);
         }
 
         serviceRunning = this;
@@ -157,6 +159,9 @@ public class SwipeService extends Service {
             mWindowManager.removeView(v);
             v = null;
         }
+
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancel(PERSISTENT_NOTIFICATION);
 
     }
 
