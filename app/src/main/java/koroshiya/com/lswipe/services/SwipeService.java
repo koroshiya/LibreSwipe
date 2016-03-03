@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,7 +32,7 @@ public class SwipeService extends Service {
     private WindowManager.LayoutParams mPaperParams;
     private DrawerLayout v;
     private boolean drawerClosed = true;
-    private boolean drawerMoving = false;
+    public static SwipeService serviceRunning = null;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, SwipeService.class);
@@ -65,32 +66,32 @@ public class SwipeService extends Service {
             @Override
             public void onDrawerOpened(View drawerView) {
                 drawerClosed = false;
-                drawerMoving = false;
+                Log.d("SwipeService", "Opened");
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                drawerClosed = false;
-                drawerMoving = true;
+                drawerClosed = true;
+                Log.d("SwipeService", "Closed");
             }
 
             @Override
             public void onDrawerStateChanged(int newState) {
 
                 if (newState == DrawerLayout.STATE_SETTLING){
-                    if (drawerClosed) {
-                        drawerClosed = false;
+                    Log.d("SwipeService", "Settling");
+                    if (drawerClosed && mPaperParams.width != WindowManager.LayoutParams.WRAP_CONTENT) {
                         mPaperParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
                         mWindowManager.updateViewLayout(v, mPaperParams);
                     }
                 }else if (newState == DrawerLayout.STATE_IDLE){
-                    if (!drawerClosed && drawerMoving) {
-                        drawerClosed = true;
+                    Log.d("SwipeService", "Idle");
+                    if (drawerClosed && mPaperParams.width != 100) {
                         mPaperParams.width = 100;
                         mWindowManager.updateViewLayout(v, mPaperParams);
                     }
                 }else if (newState == DrawerLayout.STATE_DRAGGING){
-                    drawerMoving = true;
+                    Log.d("SwipeService", "Dragging");
                 }
 
             }
@@ -129,12 +130,16 @@ public class SwipeService extends Service {
 
         nm.notify(0, n);*/
 
+        serviceRunning = this;
+
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        serviceRunning = null;
 
         if (v != null) {
             mWindowManager.removeView(v);
