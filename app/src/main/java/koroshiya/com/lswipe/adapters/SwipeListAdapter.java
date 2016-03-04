@@ -29,17 +29,17 @@ import koroshiya.com.lswipe.R;
  * This class accepts a list of apps, then displays each as a separate
  * card.
  **/
-public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> {
+public class SwipeListAdapter extends RecyclerView.Adapter<SwipeListAdapter.ViewHolder> {
 
     private final List<ResolveInfo> items;
     private boolean hideAppNames;
 
-    public NavigationAdapter(List<ResolveInfo> items){
+    public SwipeListAdapter(List<ResolveInfo> items){
         this.items = items;
     }
 
     @Override
-    public NavigationAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SwipeListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         Context c = parent.getContext();
         hideAppNames = PreferenceManager
@@ -53,7 +53,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(NavigationAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(SwipeListAdapter.ViewHolder holder, int position) {
         holder.setDataOnView(position);
     }
 

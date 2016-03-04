@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 import koroshiya.com.lswipe.activities.MainActivity;
-import koroshiya.com.lswipe.adapters.NavigationAdapter;
+import koroshiya.com.lswipe.adapters.SwipeListAdapter;
 import koroshiya.com.lswipe.R;
 
 /**
@@ -192,7 +192,7 @@ public class SwipeService extends Service {
         final List<ResolveInfo> apps = getPackageManager().queryIntentActivities( mainIntent, 0);
         Collections.sort(apps, new ResolveInfo.DisplayNameComparator(getPackageManager()));
 
-        NavigationAdapter na = new NavigationAdapter(apps);
+        SwipeListAdapter na = new SwipeListAdapter(apps);
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.vw_pane_rv);
         rv.setAdapter(na);
     }
