@@ -83,6 +83,9 @@ public class SwipeService extends Service {
             if (!v.isDrawerVisible(GravityCompat.START) && mPaperParams.width != drawer_width_dp) {
                 mPaperParams.width = drawer_width_dp;
                 mWindowManager.updateViewLayout(v, mPaperParams);
+
+                setAdapter();
+
             }else if (v.isDrawerVisible(GravityCompat.START) == isIdle && mPaperParams.width != WindowManager.LayoutParams.WRAP_CONTENT) {
                 mPaperParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
                 mWindowManager.updateViewLayout(v, mPaperParams);
@@ -124,6 +127,7 @@ public class SwipeService extends Service {
 
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.vw_pane_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
+        setAdapter();
 
         boolean bool_hide_app_names = sp.getBoolean(getString(R.string.pref_hide_app_names), true);
         if (bool_hide_app_names){
@@ -131,14 +135,6 @@ public class SwipeService extends Service {
             params.width = icon_width_dp;
             rv.setLayoutParams(params);
         }
-
-        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        final List<ResolveInfo> apps = getPackageManager().queryIntentActivities( mainIntent, 0);
-        Collections.sort(apps, new ResolveInfo.DisplayNameComparator(getPackageManager()));
-
-        NavigationAdapter na = new NavigationAdapter(apps);
-        rv.setAdapter(na);
 
         mWindowManager.addView(v, mPaperParams);
 
@@ -188,6 +184,17 @@ public class SwipeService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void setAdapter(){
+        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        final List<ResolveInfo> apps = getPackageManager().queryIntentActivities( mainIntent, 0);
+        Collections.sort(apps, new ResolveInfo.DisplayNameComparator(getPackageManager()));
+
+        NavigationAdapter na = new NavigationAdapter(apps);
+        RecyclerView rv = (RecyclerView) v.findViewById(R.id.vw_pane_rv);
+        rv.setAdapter(na);
     }
 
 }
