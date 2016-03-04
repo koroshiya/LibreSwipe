@@ -9,5 +9,8 @@
     <string name="pref_notification">pref_notification</string>
     <string name="pref_title_notification">Notification</string>
     <string name="pref_summary_notification">Enable persistent notification while running</string>
+    <string name="pref_hide_app_names">pref_hide_app_names</string>
+    <string name="pref_title_hide_app_names">App Names</string>
+    <string name="pref_summary_hide_app_names">Hide app names in drawer</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
@@ -18,8 +19,10 @@ import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import java.util.Collections;
@@ -40,6 +43,7 @@ public class SwipeService extends Service {
     private WindowManager.LayoutParams mPaperParams;
     private DrawerLayout v;
     private boolean drawerClosed = true;
+    private int drawer_width_dp;
 
     public static SwipeService serviceRunning = null;
     private final static int PERSISTENT_NOTIFICATION = 0;
@@ -51,8 +55,11 @@ public class SwipeService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        drawer_width_dp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
+        int icon_width_dp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
+
         mPaperParams = new WindowManager.LayoutParams(
-                100, WindowManager.LayoutParams.MATCH_PARENT,
+                drawer_width_dp, WindowManager.LayoutParams.MATCH_PARENT,
 
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
 
@@ -96,8 +103,8 @@ public class SwipeService extends Service {
                     }
                 }else if (newState == DrawerLayout.STATE_IDLE){
                     Log.d("SwipeService", "Idle");
-                    if (drawerClosed && mPaperParams.width != 100) {
-                        mPaperParams.width = 100;
+                    if (drawerClosed && mPaperParams.width != drawer_width_dp) {
+                        mPaperParams.width = drawer_width_dp;
                         mWindowManager.updateViewLayout(v, mPaperParams);
                     }
                 }else if (newState == DrawerLayout.STATE_DRAGGING){
@@ -107,8 +114,17 @@ public class SwipeService extends Service {
             }
         });
 
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.vw_pane_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
+
+        boolean bool_hide_app_names = sp.getBoolean(getString(R.string.pref_hide_app_names), true);
+        if (bool_hide_app_names){
+            ViewGroup.LayoutParams params = rv.getLayoutParams();
+            params.width = icon_width_dp;
+            rv.setLayoutParams(params);
+        }
 
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -120,9 +136,7 @@ public class SwipeService extends Service {
 
         mWindowManager.addView(v, mPaperParams);
 
-        boolean bool_notification = PreferenceManager
-                                        .getDefaultSharedPreferences(this)
-                                        .getBoolean(getString(R.string.pref_notification), true);
+        boolean bool_notification = sp.getBoolean(getString(R.string.pref_notification), true);
         if (bool_notification) {
             Intent notificationIntent = new Intent(this, MainActivity.class);
             PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);

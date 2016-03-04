@@ -12,4 +12,10 @@
         android:summary="@string/pref_summary_notification"
         android:defaultValue="true" />
 
+    <CheckBoxPreference
+        android:key="@string/pref_hide_app_names"
+        android:title="@string/pref_title_hide_app_names"
+        android:summary="@string/pref_summary_hide_app_names"
+        android:defaultValue="false" />
+
 </PreferenceScreen>

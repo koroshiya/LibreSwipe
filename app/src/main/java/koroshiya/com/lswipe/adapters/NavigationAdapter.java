@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -31,6 +32,7 @@ import koroshiya.com.lswipe.R;
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> {
 
     private final List<ResolveInfo> items;
+    private boolean hideAppNames;
 
     public NavigationAdapter(List<ResolveInfo> items){
         this.items = items;
@@ -38,7 +40,15 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
 
     @Override
     public NavigationAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.vw_item, parent, false);
+
+        Context c = parent.getContext();
+        hideAppNames = PreferenceManager
+                        .getDefaultSharedPreferences(c)
+                        .getBoolean(c.getString(R.string.pref_hide_app_names), true);
+
+        int resId = hideAppNames ? R.layout.vw_item_icon_only : R.layout.vw_item;
+
+        View v = LayoutInflater.from(parent.getContext()).inflate(resId, parent, false);
         return new ViewHolder(v);
     }
 
@@ -54,15 +64,17 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final AppCompatTextView tv_large, tv_small;
+        private AppCompatTextView tv_large, tv_small;
         private final AppCompatImageView iv;
         private final View view;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            tv_large = (AppCompatTextView) itemView.findViewById(R.id.vw_item_tv_large);
-            tv_small = (AppCompatTextView) itemView.findViewById(R.id.vw_item_tv_small);
+            if (!hideAppNames) {
+                tv_large = (AppCompatTextView) itemView.findViewById(R.id.vw_item_tv_large);
+                tv_small = (AppCompatTextView) itemView.findViewById(R.id.vw_item_tv_small);
+            }
             iv = (AppCompatImageView) itemView.findViewById(R.id.vw_item_iv);
             view = itemView;
         }
@@ -73,12 +85,16 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
             final ResolveInfo info = items.get(cur);
 
             PackageManager pm = c.getPackageManager();
-            CharSequence appName = info.loadLabel(pm);
             Drawable d = info.loadIcon(pm);
-            String packageName = info.activityInfo.applicationInfo.packageName;
 
-            tv_large.setText(appName);
-            tv_small.setText(packageName);
+            if (!hideAppNames) {
+                CharSequence appName = info.loadLabel(pm);
+                String packageName = info.activityInfo.applicationInfo.packageName;
+
+                tv_large.setText(appName);
+                tv_small.setText(packageName);
+            }
+
             iv.setImageDrawable(d);
 
             view.setOnClickListener(new View.OnClickListener() {
