@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import java.util.Collections;
 import java.util.List;
 
 import koroshiya.com.lswipe.R;
@@ -34,8 +35,13 @@ public class SwipeListAdapter extends RecyclerView.Adapter<SwipeListAdapter.View
     private final List<ResolveInfo> items;
     private boolean hideAppNames;
 
-    public SwipeListAdapter(List<ResolveInfo> items){
-        this.items = items;
+    public SwipeListAdapter(Context c){
+        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        final List<ResolveInfo> apps = c.getPackageManager().queryIntentActivities( mainIntent, 0);
+        Collections.sort(apps, new ResolveInfo.DisplayNameComparator(c.getPackageManager()));
+
+        this.items = apps;
     }
 
     @Override

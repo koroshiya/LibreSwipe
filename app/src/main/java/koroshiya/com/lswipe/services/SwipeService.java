@@ -7,7 +7,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
@@ -24,9 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-
-import java.util.Collections;
-import java.util.List;
 
 import koroshiya.com.lswipe.activities.MainActivity;
 import koroshiya.com.lswipe.adapters.SwipeListAdapter;
@@ -187,12 +183,7 @@ public class SwipeService extends Service {
     }
 
     private void setAdapter(){
-        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        final List<ResolveInfo> apps = getPackageManager().queryIntentActivities( mainIntent, 0);
-        Collections.sort(apps, new ResolveInfo.DisplayNameComparator(getPackageManager()));
-
-        SwipeListAdapter na = new SwipeListAdapter(apps);
+        SwipeListAdapter na = new SwipeListAdapter(this);
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.vw_pane_rv);
         rv.setAdapter(na);
     }
