@@ -42,11 +42,54 @@ public class SwipeService extends Service {
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mPaperParams;
     private DrawerLayout v;
-    private boolean drawerClosed = true;
     private int drawer_width_dp;
 
     public static SwipeService serviceRunning = null;
     private final static int PERSISTENT_NOTIFICATION = 0;
+
+    private DrawerLayout.DrawerListener drawerListener = new DrawerLayout.DrawerListener() {
+
+        @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {}
+
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            Log.d("SwipeService", "Opened");
+        }
+
+        @Override
+        public void onDrawerClosed(View drawerView) {
+            Log.d("SwipeService", "Closed");
+        }
+
+        @Override
+        public void onDrawerStateChanged(int newState) {
+
+            if (newState == DrawerLayout.STATE_SETTLING){
+                Log.d("SwipeService", "Settling");
+                hideOrShowDrawer(false);
+            }else if (newState == DrawerLayout.STATE_IDLE){
+                Log.d("SwipeService", "Idle");
+                hideOrShowDrawer(true);
+            }else if (newState == DrawerLayout.STATE_DRAGGING){
+                Log.d("SwipeService", "Dragging");
+            }
+
+        }
+
+        private void hideOrShowDrawer(boolean isIdle){
+            boolean isOpen = v.isDrawerVisible(GravityCompat.START);
+            Log.d("SS", "Open: "+Boolean.toString(isOpen));
+            if (!v.isDrawerVisible(GravityCompat.START) && mPaperParams.width != drawer_width_dp) {
+                mPaperParams.width = drawer_width_dp;
+                mWindowManager.updateViewLayout(v, mPaperParams);
+            }else if (v.isDrawerVisible(GravityCompat.START) == isIdle && mPaperParams.width != WindowManager.LayoutParams.WRAP_CONTENT) {
+                mPaperParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                mWindowManager.updateViewLayout(v, mPaperParams);
+            }
+        }
+
+    };
 
     public static Intent getIntent(Context context) {
         return new Intent(context, SwipeService.class);
@@ -73,46 +116,9 @@ public class SwipeService extends Service {
 
         mWindowManager = (WindowManager) getSystemService(Service.WINDOW_SERVICE);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
+
         v = (DrawerLayout) layoutInflater.inflate(R.layout.activity_swipe, null);
-
-        v.addDrawerListener(new DrawerLayout.DrawerListener() {
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {}
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                drawerClosed = false;
-                Log.d("SwipeService", "Opened");
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                drawerClosed = true;
-                Log.d("SwipeService", "Closed");
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
-                if (newState == DrawerLayout.STATE_SETTLING){
-                    Log.d("SwipeService", "Settling");
-                    if (drawerClosed && mPaperParams.width != WindowManager.LayoutParams.WRAP_CONTENT) {
-                        mPaperParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                        mWindowManager.updateViewLayout(v, mPaperParams);
-                    }
-                }else if (newState == DrawerLayout.STATE_IDLE){
-                    Log.d("SwipeService", "Idle");
-                    if (drawerClosed && mPaperParams.width != drawer_width_dp) {
-                        mPaperParams.width = drawer_width_dp;
-                        mWindowManager.updateViewLayout(v, mPaperParams);
-                    }
-                }else if (newState == DrawerLayout.STATE_DRAGGING){
-                    Log.d("SwipeService", "Dragging");
-                }
-
-            }
-        });
+        v.addDrawerListener(drawerListener);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
