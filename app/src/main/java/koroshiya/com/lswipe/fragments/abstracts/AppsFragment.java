@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import koroshiya.com.lswipe.R;
 import koroshiya.com.lswipe.adapters.abstracts.AppsAdapter;
 
 /**

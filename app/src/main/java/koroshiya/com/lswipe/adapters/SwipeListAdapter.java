@@ -3,6 +3,7 @@ package koroshiya.com.lswipe.adapters;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -188,7 +189,20 @@ public class SwipeListAdapter extends RecyclerView.Adapter<SwipeListAdapter.View
             if (view != null && view.getParent() != null && view.getParent().getParent() != null) {
                 ViewParent vp = view.getParent().getParent();
                 if (vp instanceof DrawerLayout) {
-                    ((DrawerLayout) vp).closeDrawer(GravityCompat.START);
+
+                    DrawerLayout dl = (DrawerLayout) vp;
+                    Context c = dl.getContext();
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+                    int gravity;
+
+                    String dock_side = sp.getString(c.getString(R.string.pref_dock_side), c.getString(R.string.pref_dock_side_default));
+                    if (dock_side.equals("0")){
+                        gravity = GravityCompat.START;
+                    }else{
+                        gravity = GravityCompat.END;
+                    }
+
+                    ((DrawerLayout) vp).closeDrawer(gravity);
                 }
             }
         }
