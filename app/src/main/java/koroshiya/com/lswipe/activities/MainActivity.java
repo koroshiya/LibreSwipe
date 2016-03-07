@@ -27,6 +27,7 @@ import koroshiya.com.lswipe.fragments.PinnedAppsFragment;
 import koroshiya.com.lswipe.fragments.SettingsFragment;
 import koroshiya.com.lswipe.fragments.abstracts.AppsFragment;
 import koroshiya.com.lswipe.services.SwipeService;
+import koroshiya.com.lswipe.util.Util;
 
 /**
  * Main activity. Holds fragments which act as other activities.
@@ -102,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }else{
             fm.popBackStackImmediate();
+            View v = findViewById(R.id.activity_main_menu_fragment);
+            Util.restartSwipeServiceIfNeeded(v);
         }
     }
 

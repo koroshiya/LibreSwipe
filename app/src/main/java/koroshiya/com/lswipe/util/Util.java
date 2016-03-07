@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +15,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
+
+import koroshiya.com.lswipe.services.SwipeService;
 
 public class Util {
 
@@ -103,6 +107,17 @@ public class Util {
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         return pm.queryIntentActivities(mainIntent, 0);
+    }
+
+    public static void restartSwipeServiceIfNeeded(View v){
+
+        if (SwipeService.serviceRunning != null){
+            Context c = v.getContext();
+            Snackbar.make(v, "LibreSwipe settings/apps updated", Snackbar.LENGTH_SHORT).show();
+            SwipeService.serviceRunning.stopSelf();
+            c.startService(SwipeService.getIntent(c));
+        }
+
     }
 
 }
