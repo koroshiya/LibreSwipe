@@ -40,28 +40,43 @@ public class SwipeListAdapter extends RecyclerView.Adapter<SwipeListAdapter.View
 
         final List<ResolveInfo> apps = Util.getAppList(c);
         Collections.sort(apps, new ResolveInfo.DisplayNameComparator(c.getPackageManager()));
-
-        List<String> hidden = Util.getStringListFromType(c, HiddenAppsAdapter.HIDDEN);
         List<String> pinned = Util.getStringListFromType(c, PinnedAppsAdapter.PINNED);
+        boolean onlyShowPinned = PreferenceManager
+                                    .getDefaultSharedPreferences(c)
+                                    .getBoolean(c.getString(R.string.pref_hide_non_pinned), false);
 
-        for (int i = apps.size() - 1; i >= 0; i--){
-            ResolveInfo app = apps.get(i);
-            for (String h : hidden){
-                if (h.equals(app.activityInfo.name)){
-                    apps.remove(app);
-                    break;
+        if (onlyShowPinned){
+
+            for (int i = apps.size() - 1; i >= 0; i--) {
+                ResolveInfo app = apps.get(i);
+                if (!pinned.contains(app.activityInfo.name)){
+                    apps.remove(i);
                 }
             }
-        }
 
-        Collections.reverse(pinned); //Add them backwards, so they're in alphabetical order
-        for (String p : pinned){
-            for (int i = apps.size() - 1; i >= 0; i--){
+        }else {
+
+            List<String> hidden = Util.getStringListFromType(c, HiddenAppsAdapter.HIDDEN);
+
+            for (int i = apps.size() - 1; i >= 0; i--) {
                 ResolveInfo app = apps.get(i);
-                if (p.equals(app.activityInfo.name)){
-                    apps.remove(i);
-                    apps.add(0, app);
-                    break;
+                for (String h : hidden) {
+                    if (h.equals(app.activityInfo.name)) {
+                        apps.remove(app);
+                        break;
+                    }
+                }
+            }
+
+            Collections.reverse(pinned); //Add them backwards, so they're in alphabetical order
+            for (String p : pinned) {
+                for (int i = apps.size() - 1; i >= 0; i--) {
+                    ResolveInfo app = apps.get(i);
+                    if (p.equals(app.activityInfo.name)) {
+                        apps.remove(i);
+                        apps.add(0, app);
+                        break;
+                    }
                 }
             }
         }

@@ -18,4 +18,10 @@
         android:summary="@string/pref_summary_hide_app_names"
         android:defaultValue="false" />
 
+    <CheckBoxPreference
+        android:key="@string/pref_hide_non_pinned"
+        android:title="@string/pref_title_hide_non_pinned"
+        android:summary="@string/pref_summary_hide_non_pinned"
+        android:defaultValue="false" />
+
 </PreferenceScreen>
