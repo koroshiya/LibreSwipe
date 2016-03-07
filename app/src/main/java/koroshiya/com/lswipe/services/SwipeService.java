@@ -39,6 +39,7 @@ public class SwipeService extends Service {
     private WindowManager.LayoutParams mPaperParams;
     private DrawerLayout v;
     private int drawer_width_dp;
+    private int gravityMode;
 
     public static SwipeService serviceRunning = null;
     private final static int PERSISTENT_NOTIFICATION = 0;
@@ -74,15 +75,12 @@ public class SwipeService extends Service {
         }
 
         private void hideOrShowDrawer(boolean isIdle){
-            boolean isOpen = v.isDrawerVisible(GravityCompat.START);
+            boolean isOpen = v.isDrawerVisible(gravityMode);
             Log.d("SS", "Open: "+Boolean.toString(isOpen));
-            if (!v.isDrawerVisible(GravityCompat.START) && mPaperParams.width != drawer_width_dp) {
+            if (!v.isDrawerVisible(gravityMode) && mPaperParams.width != drawer_width_dp) {
                 mPaperParams.width = drawer_width_dp;
                 mWindowManager.updateViewLayout(v, mPaperParams);
-
-                setAdapter();
-
-            }else if (v.isDrawerVisible(GravityCompat.START) == isIdle && mPaperParams.width != WindowManager.LayoutParams.WRAP_CONTENT) {
+            }else if (v.isDrawerVisible(gravityMode) == isIdle && mPaperParams.width != WindowManager.LayoutParams.WRAP_CONTENT) {
                 mPaperParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
                 mWindowManager.updateViewLayout(v, mPaperParams);
             }
@@ -96,6 +94,8 @@ public class SwipeService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
         drawer_width_dp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
         int icon_width_dp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
@@ -111,7 +111,13 @@ public class SwipeService extends Service {
                         | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
 
-        mPaperParams.gravity = GravityCompat.START;
+        String dock_side = sp.getString(getString(R.string.pref_dock_side), getString(R.string.pref_dock_side_default));
+        if (dock_side.equals("0")){
+            gravityMode = GravityCompat.START;
+        }else{
+            gravityMode = GravityCompat.END;
+        }
+        mPaperParams.gravity = gravityMode;
 
         mWindowManager = (WindowManager) getSystemService(Service.WINDOW_SERVICE);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -119,11 +125,14 @@ public class SwipeService extends Service {
         v = (DrawerLayout) layoutInflater.inflate(R.layout.activity_swipe, null);
         v.addDrawerListener(drawerListener);
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.vw_pane_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        setAdapter();
+        DrawerLayout.LayoutParams rvlp = (DrawerLayout.LayoutParams) rv.getLayoutParams();
+        rvlp.gravity = gravityMode;
+        rv.setLayoutParams(rvlp);
+
+        SwipeListAdapter na = new SwipeListAdapter(this);
+        rv.setAdapter(na);
 
         boolean bool_hide_app_names = sp.getBoolean(getString(R.string.pref_hide_app_names), true);
         if (bool_hide_app_names){
@@ -180,12 +189,6 @@ public class SwipeService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    private void setAdapter(){
-        SwipeListAdapter na = new SwipeListAdapter(this);
-        RecyclerView rv = (RecyclerView) v.findViewById(R.id.vw_pane_rv);
-        rv.setAdapter(na);
     }
 
 }

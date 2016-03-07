@@ -24,4 +24,13 @@
         android:summary="@string/pref_summary_hide_non_pinned"
         android:defaultValue="false" />
 
+    <ListPreference
+        android:key="@string/pref_dock_side"
+        android:title="@string/pref_title_dock_side"
+        android:dialogTitle="@string/pref_title_dock_side"
+        android:summary="@string/pref_summary_dock_side"
+        android:entries="@array/pref_dock_side_entries"
+        android:entryValues="@array/pref_dock_side_values"
+        android:defaultValue="@string/pref_dock_side_default" />
+
 </PreferenceScreen>

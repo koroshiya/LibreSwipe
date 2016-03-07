@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_dock_side_entries">
+        <item>Start (Left in rtl)</item>
+        <item>End (Right in rtl)</item>
+    </string-array>
+    <string-array name="pref_dock_side_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+</resources>
