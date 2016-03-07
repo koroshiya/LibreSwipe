@@ -43,7 +43,7 @@ public class SwipeService extends Service {
     public static SwipeService serviceRunning = null;
     private final static int PERSISTENT_NOTIFICATION = 0;
 
-    private DrawerLayout.DrawerListener drawerListener = new DrawerLayout.DrawerListener() {
+    private final DrawerLayout.DrawerListener drawerListener = new DrawerLayout.DrawerListener() {
 
         @Override
         public void onDrawerSlide(View drawerView, float slideOffset) {}

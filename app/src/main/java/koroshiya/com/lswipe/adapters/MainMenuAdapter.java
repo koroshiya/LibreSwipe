@@ -58,7 +58,7 @@ public class MainMenuAdapter extends RecyclerView.Adapter<MainMenuAdapter.ViewHo
                 public void onClick(View v) {
                     Context c = v.getContext();
                     if (c instanceof MainActivity){
-                        ((MainActivity)c).receiveEvent(MainActivity.PAGE_MAIN_MENU, menuItem, v);
+                        ((MainActivity)c).receiveEvent(menuItem, v);
                     }
                 }
             });

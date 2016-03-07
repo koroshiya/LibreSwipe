@@ -19,6 +19,8 @@ public class MainMenuFragment extends Fragment {
 
     public static final String MENU_ITEM_TURN_SERVICE_ON_OFF = "Turn LibreSwipe on/off";
     public static final String MENU_ITEM_SETTINGS = "Settings";
+    public static final String MENU_ITEM_APPS_PINNED = "Pinned Apps";
+    public static final String MENU_ITEM_APPS_HIDDEN = "Hidden Apps";
 
     public static MainMenuFragment newInstance() {
         return new MainMenuFragment();
@@ -31,6 +33,8 @@ public class MainMenuFragment extends Fragment {
         String[] items = new String[]{
                 MENU_ITEM_TURN_SERVICE_ON_OFF,
                 MENU_ITEM_SETTINGS,
+                MENU_ITEM_APPS_PINNED,
+                MENU_ITEM_APPS_HIDDEN,
         };
 
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.frag_main_menu_rv);
@@ -38,6 +42,12 @@ public class MainMenuFragment extends Fragment {
         rv.setAdapter(new MainMenuAdapter(items));
 
         return v;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getActivity().setTitle(R.string.app_name);
     }
 
 }

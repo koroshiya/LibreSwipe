@@ -12,5 +12,8 @@
     <string name="pref_hide_app_names">pref_hide_app_names</string>
     <string name="pref_title_hide_app_names">App Names</string>
     <string name="pref_summary_hide_app_names">Hide app names in drawer</string>
+    <string name="str_pinned_apps">"Pinned Apps"</string>
+    <string name="str_hidden_apps">"Hidden Apps"</string>
+    <string name="str_settings">Settings</string>
 
 </resources>

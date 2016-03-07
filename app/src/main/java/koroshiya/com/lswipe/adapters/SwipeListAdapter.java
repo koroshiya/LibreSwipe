@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import koroshiya.com.lswipe.R;
+import koroshiya.com.lswipe.util.Util;
 
 /**
  * Adapter for the RecyclerView used to show the app list.
@@ -36,10 +37,34 @@ public class SwipeListAdapter extends RecyclerView.Adapter<SwipeListAdapter.View
     private boolean hideAppNames;
 
     public SwipeListAdapter(Context c){
-        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        final List<ResolveInfo> apps = c.getPackageManager().queryIntentActivities( mainIntent, 0);
+
+        final List<ResolveInfo> apps = Util.getAppList(c);
         Collections.sort(apps, new ResolveInfo.DisplayNameComparator(c.getPackageManager()));
+
+        List<String> hidden = Util.getStringListFromType(c, HiddenAppsAdapter.HIDDEN);
+        List<String> pinned = Util.getStringListFromType(c, PinnedAppsAdapter.PINNED);
+
+        for (int i = apps.size() - 1; i >= 0; i--){
+            ResolveInfo app = apps.get(i);
+            for (String h : hidden){
+                if (h.equals(app.activityInfo.name)){
+                    apps.remove(app);
+                    break;
+                }
+            }
+        }
+
+        Collections.reverse(pinned); //Add them backwards, so they're in alphabetical order
+        for (String p : pinned){
+            for (int i = apps.size() - 1; i >= 0; i--){
+                ResolveInfo app = apps.get(i);
+                if (p.equals(app.activityInfo.name)){
+                    apps.remove(i);
+                    apps.add(0, app);
+                    break;
+                }
+            }
+        }
 
         this.items = apps;
     }

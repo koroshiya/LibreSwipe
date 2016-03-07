@@ -22,4 +22,10 @@ public class SettingsFragment extends PreferenceFragment {
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        getActivity().setTitle(String.format("%s -> %s", getString(R.string.app_name), getString(R.string.str_settings)));
+    }
+
 }

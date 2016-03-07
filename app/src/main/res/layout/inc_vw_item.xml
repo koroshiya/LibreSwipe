@@ -1,0 +1,47 @@
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/vw_item_iv"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="2dp"
+        />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="2dp"
+        >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/vw_item_tv_large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center_vertical"
+            android:lines="1"
+            android:ellipsize="end"
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/vw_item_tv_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center_vertical"
+            android:lines="1"
+            android:ellipsize="start"
+            />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</android.support.v7.widget.LinearLayoutCompat>

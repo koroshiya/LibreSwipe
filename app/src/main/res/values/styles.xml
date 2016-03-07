@@ -13,6 +13,10 @@
         <item name="cardUseCompatPadding">true</item>
         <item name="elevation">5dp</item>
         <item name="android:padding">2dp</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:selectable">true</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
