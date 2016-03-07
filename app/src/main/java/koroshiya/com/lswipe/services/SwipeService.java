@@ -39,51 +39,24 @@ public class SwipeService extends Service {
     private WindowManager.LayoutParams mPaperParams;
     private DrawerLayout v;
     private int drawer_width_dp;
-    private int gravityMode;
 
     public static SwipeService serviceRunning = null;
     private final static int PERSISTENT_NOTIFICATION = 0;
 
-    private final DrawerLayout.DrawerListener drawerListener = new DrawerLayout.DrawerListener() {
+    private final DrawerLayout.DrawerListener drawerListener = new DrawerLayout.SimpleDrawerListener() {
 
         @Override
-        public void onDrawerSlide(View drawerView, float slideOffset) {}
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+            Log.d("SS", Float.toString(slideOffset));
 
-        @Override
-        public void onDrawerOpened(View drawerView) {
-            Log.d("SwipeService", "Opened");
-        }
-
-        @Override
-        public void onDrawerClosed(View drawerView) {
-            Log.d("SwipeService", "Closed");
-        }
-
-        @Override
-        public void onDrawerStateChanged(int newState) {
-
-            if (newState == DrawerLayout.STATE_SETTLING){
-                Log.d("SwipeService", "Settling");
-                hideOrShowDrawer(false);
-            }else if (newState == DrawerLayout.STATE_IDLE){
-                Log.d("SwipeService", "Idle");
-                hideOrShowDrawer(true);
-            }else if (newState == DrawerLayout.STATE_DRAGGING){
-                Log.d("SwipeService", "Dragging");
-            }
-
-        }
-
-        private void hideOrShowDrawer(boolean isIdle){
-            boolean isOpen = v.isDrawerVisible(gravityMode);
-            Log.d("SS", "Open: "+Boolean.toString(isOpen));
-            if (!v.isDrawerVisible(gravityMode) && mPaperParams.width != drawer_width_dp) {
+            if (slideOffset == 0.0f) {
                 mPaperParams.width = drawer_width_dp;
                 mWindowManager.updateViewLayout(v, mPaperParams);
-            }else if (v.isDrawerVisible(gravityMode) == isIdle && mPaperParams.width != WindowManager.LayoutParams.WRAP_CONTENT) {
+            }else if (mPaperParams.width != WindowManager.LayoutParams.WRAP_CONTENT) {
                 mPaperParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
                 mWindowManager.updateViewLayout(v, mPaperParams);
             }
+
         }
 
     };
@@ -112,6 +85,8 @@ public class SwipeService extends Service {
                 PixelFormat.TRANSLUCENT);
 
         String dock_side = sp.getString(getString(R.string.pref_dock_side), getString(R.string.pref_dock_side_default));
+        int gravityMode;
+
         if (dock_side.equals("0")){
             gravityMode = GravityCompat.START;
         }else{
