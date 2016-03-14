@@ -115,9 +115,6 @@ public class MainActivity extends AppCompatActivity {
         final RecyclerView rView = new RecyclerView(c);
         rView.setLayoutManager(new LinearLayoutManager(c));
         rView.setAdapter(new PinnedAppsAdapter(c, true));
-        //rView.setPadding(0,20,0,20);
-        //ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        //rView.setLayoutParams(params);
 
         appsFragmentBtnAdd(rView, c);
 
@@ -130,9 +127,6 @@ public class MainActivity extends AppCompatActivity {
         final RecyclerView rView = new RecyclerView(c);
         rView.setLayoutManager(new LinearLayoutManager(c));
         rView.setAdapter(new HiddenAppsAdapter(c, true));
-        //rView.setPadding(0,20,0,20);
-        //ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        //rView.setLayoutParams(params);
 
         appsFragmentBtnAdd(rView, c);
 
@@ -141,8 +135,7 @@ public class MainActivity extends AppCompatActivity {
     private void appsFragmentBtnAdd(final RecyclerView v, final Context c){
 
         new AlertDialog.Builder(c)
-                .setTitle("App chooser")
-                .setMessage("Choose an app to add")
+                //.setTitle("App chooser")
                 .setView(v)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
