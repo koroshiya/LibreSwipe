@@ -17,7 +17,7 @@ import koroshiya.com.lswipe.adapters.MainMenuAdapter;
  **/
 public class MainMenuFragment extends Fragment {
 
-    public static final String MENU_ITEM_TURN_SERVICE_ON_OFF = "Turn LibreSwipe on/off";
+    public static final String MENU_ITEM_TURN_SERVICE_ON_OFF = "Turn LibreSwipe On/Off";
     public static final String MENU_ITEM_SETTINGS = "Settings";
     public static final String MENU_ITEM_APPS_PINNED = "Pinned Apps";
     public static final String MENU_ITEM_APPS_HIDDEN = "Hidden Apps";
