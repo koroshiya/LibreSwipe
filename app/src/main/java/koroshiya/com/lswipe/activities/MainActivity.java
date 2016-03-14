@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setFragment(MainMenuFragment.newInstance());
     }
 
-    public void receiveEvent(String item, View v){
+    public void receiveEvent(int item, View v){
 
         Fragment fragment = getFragment();
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item){
 
-                case MainMenuFragment.MENU_ITEM_TURN_SERVICE_ON_OFF:
+                case R.string.str_turn_on_off:
 
                     if (SwipeService.serviceRunning != null){
                         Snackbar.make(v, "LibreSwipe has been turned off", Snackbar.LENGTH_SHORT).show();
@@ -62,17 +62,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
 
-                case MainMenuFragment.MENU_ITEM_SETTINGS:
+                case R.string.str_settings:
 
                     setFragment(SettingsFragment.newInstance());
                     break;
 
-                case MainMenuFragment.MENU_ITEM_APPS_PINNED:
+                case R.string.str_pinned_apps:
 
                     setFragment(PinnedAppsFragment.newInstance());
                     break;
 
-                case MainMenuFragment.MENU_ITEM_APPS_HIDDEN:
+                case R.string.str_hidden_apps:
 
                     setFragment(HiddenAppsFragment.newInstance());
                     break;

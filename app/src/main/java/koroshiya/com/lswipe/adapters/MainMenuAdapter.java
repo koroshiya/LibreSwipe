@@ -15,9 +15,9 @@ import koroshiya.com.lswipe.activities.MainActivity;
  **/
 public class MainMenuAdapter extends RecyclerView.Adapter<MainMenuAdapter.ViewHolder> {
 
-    private final String[] items;
+    private final int[] items;
 
-    public MainMenuAdapter(String[] items){
+    public MainMenuAdapter(int[] items){
         this.items = items;
     }
 
@@ -50,15 +50,15 @@ public class MainMenuAdapter extends RecyclerView.Adapter<MainMenuAdapter.ViewHo
 
         public void setDataOnView(int cur) {
 
-            final String menuItem = items[cur];
-            tv.setText(menuItem);
+            final int resId = items[cur];
+            tv.setText(resId);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context c = v.getContext();
                     if (c instanceof MainActivity){
-                        ((MainActivity)c).receiveEvent(menuItem, v);
+                        ((MainActivity)c).receiveEvent(resId, v);
                     }
                 }
             });

@@ -22,5 +22,6 @@
     <string name="pref_title_dock_side">Drawer side</string>
     <string name="pref_dock_side_default">0</string>
     <string name="pref_summary_dock_side">Side on which the app drawer will appear</string>
+    <string name="str_turn_on_off">Turn LibreSwipe On/Off</string>
 
 </resources>
