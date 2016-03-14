@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FragmentManager fm = this.getFragmentManager();
-        if (fm.getBackStackEntryCount() == 0) {
+        if (fm.getBackStackEntryCount() == 1) {
             super.onBackPressed();
         }else{
             fm.popBackStackImmediate();
