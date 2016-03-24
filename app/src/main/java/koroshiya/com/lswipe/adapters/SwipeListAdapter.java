@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -117,6 +118,12 @@ public class SwipeListAdapter extends RecyclerView.Adapter<SwipeListAdapter.View
 
         public ViewHolder(View itemView) {
             super(itemView);
+
+            Context c = itemView.getContext();
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+            if (sp.getBoolean(c.getString(R.string.pref_dark_draw), false)){
+                itemView.setBackgroundColor(Color.DKGRAY);
+            }
 
             if (!hideAppNames) {
                 tv_large = (AppCompatTextView) itemView.findViewById(R.id.vw_item_tv_large);

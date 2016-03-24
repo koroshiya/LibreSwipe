@@ -23,5 +23,8 @@
     <string name="pref_dock_side_default">0</string>
     <string name="pref_summary_dock_side">Side on which the app drawer will appear</string>
     <string name="str_turn_on_off">Turn LibreSwipe On/Off</string>
+    <string name="pref_dark_draw">pref_dark_draw</string>
+    <string name="pref_title_dark_drawer">Dark drawer</string>
+    <string name="pref_summary_dark_drawer">Use dark backgrounds for items in drawer</string>
 
 </resources>

@@ -24,6 +24,12 @@
         android:summary="@string/pref_summary_hide_non_pinned"
         android:defaultValue="false" />
 
+    <CheckBoxPreference
+        android:key="@string/pref_dark_draw"
+        android:title="@string/pref_title_dark_drawer"
+        android:summary="@string/pref_summary_dark_drawer"
+        android:defaultValue="false" />
+
     <ListPreference
         android:key="@string/pref_dock_side"
         android:title="@string/pref_title_dock_side"
