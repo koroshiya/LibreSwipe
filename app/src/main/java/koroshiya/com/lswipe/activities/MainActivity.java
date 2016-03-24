@@ -5,8 +5,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
         setFragment(MainMenuFragment.newInstance());
     }
 
+    public boolean checkDrawOverlayPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.canDrawOverlays(this);
+        }
+        return true;
+    }
+
     public void receiveEvent(int item, View v){
 
         Fragment fragment = getFragment();
@@ -56,9 +67,12 @@ public class MainActivity extends AppCompatActivity {
                     if (SwipeService.serviceRunning != null){
                         Snackbar.make(v, "LibreSwipe has been turned off", Snackbar.LENGTH_SHORT).show();
                         SwipeService.serviceRunning.stopSelf();
-                    }else{
+                    }else if (checkDrawOverlayPermission()){
                         Snackbar.make(v, "LibreSwipe has been turned on", Snackbar.LENGTH_SHORT).show();
                         startService(SwipeService.getIntent(this));
+                    }else{
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+                        startActivityForResult(intent, 0);
                     }
                     break;
 
