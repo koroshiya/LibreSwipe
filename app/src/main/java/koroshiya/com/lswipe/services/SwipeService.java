@@ -127,8 +127,8 @@ public class SwipeService extends Service {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
             builder.setContentIntent(contentIntent)
-                    .setSmallIcon(R.drawable.ic_touch_app_black_24dp)
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.ic_touch_app_black_24dp))
+                    .setSmallIcon(R.drawable.icon)
+                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.icon))
                     .setTicker("LibreSwipe is running - Tap to open settings")
                     .setWhen(System.currentTimeMillis())
                     .setAutoCancel(true)
