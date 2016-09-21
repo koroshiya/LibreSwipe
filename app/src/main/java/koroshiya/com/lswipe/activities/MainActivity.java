@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         FragmentManager fm = this.getFragmentManager();
         if (fm.getBackStackEntryCount() == 1) {
-            super.onBackPressed();
+            moveTaskToBack(true);
         }else{
             fm.popBackStackImmediate();
             View v = findViewById(R.id.activity_main_menu_fragment);
