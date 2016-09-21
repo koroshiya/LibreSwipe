@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setFragment(MainMenuFragment.newInstance());
     }
 
-    public boolean checkDrawOverlayPermission() {
+    private boolean checkDrawOverlayPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Settings.canDrawOverlays(this);
         }

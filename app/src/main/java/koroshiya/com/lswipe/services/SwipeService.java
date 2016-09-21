@@ -44,7 +44,8 @@ public class SwipeService extends Service {
     public static boolean isRunning = false;
 
     private final static int PERSISTENT_NOTIFICATION = 0;
-    public final static String KILL_SERVICE = "kill_service", RESTART_SERVICE = "restart_service";
+    private final static String KILL_SERVICE = "kill_service";
+    public final static String RESTART_SERVICE = "restart_service";
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
