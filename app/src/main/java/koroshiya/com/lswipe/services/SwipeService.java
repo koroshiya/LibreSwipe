@@ -172,14 +172,17 @@ public class SwipeService extends Service {
             Resources res = getResources();
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
+            String strTapToOpenSettings = getString(R.string.tap_to_open_settings);
+            String strTitle = getString(R.string.app_name);
+
             builder.setContentIntent(contentIntent)
                     .setSmallIcon(R.drawable.ic_touch_app_white_24dp)
                     .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.ic_touch_app_white_24dp))
-                    .setTicker("LibreSwipe is running - Tap to open settings")
+                    .setTicker(strTapToOpenSettings)
                     .setWhen(System.currentTimeMillis())
                     .setAutoCancel(true)
-                    .setContentTitle("LibreSwipe")
-                    .setContentText("LibreSwipe is running - Tap to open settings");
+                    .setContentTitle(strTitle)
+                    .setContentText(strTapToOpenSettings);
             Notification n = builder.build();
 
             nm.notify(PERSISTENT_NOTIFICATION, n);
@@ -214,7 +217,8 @@ public class SwipeService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        String msg = getString(R.string.not_yet_implemented);
+        throw new UnsupportedOperationException(msg);
     }
 
 }

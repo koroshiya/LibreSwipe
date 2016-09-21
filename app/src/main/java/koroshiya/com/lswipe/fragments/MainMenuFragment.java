@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import koroshiya.com.lswipe.R;
 import koroshiya.com.lswipe.adapters.MainMenuAdapter;
+import koroshiya.com.lswipe.util.Util;
 
 /**
  * Fragment containing a list of menu items.
@@ -42,7 +43,7 @@ public class MainMenuFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        getActivity().setTitle(R.string.app_name);
+        Util.setTitle(this, -1);
     }
 
 }

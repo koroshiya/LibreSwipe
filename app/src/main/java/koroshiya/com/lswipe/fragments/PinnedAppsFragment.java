@@ -6,6 +6,7 @@ import koroshiya.com.lswipe.R;
 import koroshiya.com.lswipe.adapters.PinnedAppsAdapter;
 import koroshiya.com.lswipe.adapters.abstracts.AppsAdapter;
 import koroshiya.com.lswipe.fragments.abstracts.AppsFragment;
+import koroshiya.com.lswipe.util.Util;
 
 /**
  * Fragment for displaying and adding "pinned" apps.
@@ -36,7 +37,7 @@ public class PinnedAppsFragment extends AppsFragment {
     @Override
     public void onResume(){
         super.onResume();
-        getActivity().setTitle(String.format("%s -> %s", getString(R.string.app_name), getString(R.string.str_pinned_apps)));
+        Util.setTitle(this, R.string.str_pinned_apps);
     }
 
 }

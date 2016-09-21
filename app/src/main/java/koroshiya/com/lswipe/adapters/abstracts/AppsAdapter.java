@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import koroshiya.com.lswipe.R;
@@ -199,14 +200,15 @@ public abstract class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewH
                     }
                     notifyItemChanged(cur1);
                 }else{
+                    String msg = String.format(Locale.ENGLISH, c.getString(R.string.remove_x_from_y_apps), appName, getType());
                     new AlertDialog.Builder(c)
-                            .setTitle("Remove app")
-                            .setMessage("Are you sure you want to remove "+appName+" from your "+getType()+" apps?")
-                            .setPositiveButton("OK", (dialog, which) -> {
+                            .setTitle(R.string.remove_app)
+                            .setMessage(msg)
+                            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                                 removeApp(c, info);
                                 dialog.dismiss();
                             })
-                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                            .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
                             .show();
                 }
 

@@ -26,5 +26,13 @@
     <string name="pref_dark_draw">pref_dark_draw</string>
     <string name="pref_title_dark_drawer">Dark drawer</string>
     <string name="pref_summary_dark_drawer">Use dark backgrounds for items in drawer</string>
+    <string name="settings_apps_updated">LibreSwipe settings/apps updated</string>
+    <string name="tap_to_open_settings">LibreSwipe is running - Tap to open settings</string>
+    <string name="not_yet_implemented">Not yet implemented</string>
+    <string name="turned_off">LibreSwipe has been turned off</string>
+    <string name="turned_on">LibreSwipe has been turned on</string>
+    <string name="remove_app">Remove app</string>
+    <string name="remove_x_from_y_apps">Are you sure you want to remove %1$s from your %2$s apps?</string>
+    <string name="page_name_nav">%1$s -> %2$s</string>
 
 </resources>

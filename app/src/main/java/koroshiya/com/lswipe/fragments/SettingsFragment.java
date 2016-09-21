@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 import koroshiya.com.lswipe.R;
+import koroshiya.com.lswipe.util.Util;
 
 /**
  * Fragment containing all of the settings possible for this app.
@@ -25,7 +26,7 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onResume(){
         super.onResume();
-        getActivity().setTitle(String.format("%s -> %s", getString(R.string.app_name), getString(R.string.str_settings)));
+        Util.setTitle(this, R.string.str_settings);
     }
 
 }

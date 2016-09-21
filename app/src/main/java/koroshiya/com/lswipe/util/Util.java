@@ -1,5 +1,7 @@
 package koroshiya.com.lswipe.util;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import koroshiya.com.lswipe.R;
 import koroshiya.com.lswipe.services.SwipeService;
 
 public class Util {
@@ -120,7 +123,7 @@ public class Util {
     public static void restartSwipeServiceIfNeeded(View v){
 
         Context c = v.getContext();
-        Snackbar.make(v, "LibreSwipe settings/apps updated", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(v, R.string.settings_apps_updated, Snackbar.LENGTH_SHORT).show();
 
         Intent i = new Intent();
         i.setAction(SwipeService.RESTART_SERVICE);
@@ -128,4 +131,27 @@ public class Util {
 
     }
 
+    public static void setTitle(Fragment fragment, int resId) {
+
+        Activity act = fragment.getActivity();
+        if (act != null) {
+
+            String appName = act.getString(R.string.app_name);
+
+            if (resId != -1) {
+
+                String pageName = act.getString(resId);
+                String format = act.getString(R.string.page_name_nav);
+
+                act.setTitle(String.format(format, appName, pageName));
+
+            }else{
+
+                act.setTitle(appName);
+
+            }
+
+        }
+
+    }
 }

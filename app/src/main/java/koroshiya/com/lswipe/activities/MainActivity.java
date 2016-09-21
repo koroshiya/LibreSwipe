@@ -66,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
                     if (SwipeService.isRunning){
 
                         SwipeService.killService(this);
-                        Snackbar.make(v, "LibreSwipe has been turned off", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(v, R.string.turned_off, Snackbar.LENGTH_SHORT).show();
 
                     }else if (checkDrawOverlayPermission()){
 
-                        Snackbar.make(v, "LibreSwipe has been turned on", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(v, R.string.turned_on, Snackbar.LENGTH_SHORT).show();
                         startService(SwipeService.getIntent(this));
 
                     }else {
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(c)
                 //.setTitle("App chooser")
                 .setView(v)
-                .setPositiveButton("OK", (dialog, which) -> {
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                     ArrayList<ResolveInfo> items = ((AppsAdapter)v.getAdapter()).getSelectedItems();
                     if (items.size() > 0){
                         Fragment f = getFragment();
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 })
-                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
                 .show();
 
     }
