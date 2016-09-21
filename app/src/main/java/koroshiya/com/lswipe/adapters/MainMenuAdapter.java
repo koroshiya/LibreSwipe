@@ -37,29 +37,26 @@ public class MainMenuAdapter extends RecyclerView.Adapter<MainMenuAdapter.ViewHo
         return items.length;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private final View v;
         private final AppCompatTextView tv;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             v = itemView;
             tv = (AppCompatTextView) itemView.findViewById(R.id.vw_main_menu_item_tv);
         }
 
-        public void setDataOnView(int cur) {
+        void setDataOnView(int cur) {
 
             final int resId = items[cur];
             tv.setText(resId);
 
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context c = v.getContext();
-                    if (c instanceof MainActivity){
-                        ((MainActivity)c).receiveEvent(resId, v);
-                    }
+            v.setOnClickListener(v1 -> {
+                Context c = v1.getContext();
+                if (c instanceof MainActivity){
+                    ((MainActivity)c).receiveEvent(resId, v1);
                 }
             });
 

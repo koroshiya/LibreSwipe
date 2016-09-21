@@ -110,13 +110,13 @@ public class SwipeListAdapter extends RecyclerView.Adapter<SwipeListAdapter.View
         return items.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private AppCompatTextView tv_large, tv_small;
         private final AppCompatImageView iv;
         private final View view;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             Context c = itemView.getContext();
@@ -133,7 +133,7 @@ public class SwipeListAdapter extends RecyclerView.Adapter<SwipeListAdapter.View
             view = itemView;
         }
 
-        public void setDataOnView(int cur) {
+        void setDataOnView(int cur) {
 
             final Context c = iv.getContext();
             final ResolveInfo info = items.get(cur);
@@ -151,43 +151,37 @@ public class SwipeListAdapter extends RecyclerView.Adapter<SwipeListAdapter.View
 
             iv.setImageDrawable(d);
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            view.setOnClickListener(v -> {
 
-                    closeDrawer();
+                closeDrawer();
 
-                    ActivityInfo activity = info.activityInfo;
-                    ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
+                ActivityInfo activity = info.activityInfo;
+                ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
 
-                    Intent i = new Intent(Intent.ACTION_MAIN);
-                    i.addCategory(Intent.CATEGORY_LAUNCHER);
-                    i.setComponent(name);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                Intent i = new Intent(Intent.ACTION_MAIN);
+                i.addCategory(Intent.CATEGORY_LAUNCHER);
+                i.setComponent(name);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 
-                    c.startActivity(i);
+                c.startActivity(i);
 
-                }
             });
 
-            view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
+            view.setOnLongClickListener(v -> {
 
-                    closeDrawer();
+                closeDrawer();
 
-                    ActivityInfo activity = info.activityInfo;
-                    Uri uri = Uri.fromParts("package", activity.applicationInfo.packageName, null);
+                ActivityInfo activity = info.activityInfo;
+                Uri uri = Uri.fromParts("package", activity.applicationInfo.packageName, null);
 
-                    Intent i = new Intent();
-                    i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    i.setData(uri);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent i = new Intent();
+                i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                i.setData(uri);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                    c.startActivity(i);
+                c.startActivity(i);
 
-                    return false;
-                }
+                return false;
             });
 
         }

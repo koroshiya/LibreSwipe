@@ -10,7 +10,7 @@ import koroshiya.com.lswipe.adapters.abstracts.AppsAdapter;
  **/
 public class PinnedAppsAdapter extends AppsAdapter {
 
-    public static final String PINNED = "pinned";
+    static final String PINNED = "pinned";
 
     /**
      * @param isAddAdapter True if this is to add a new pinned app, false if we're displaying already pinned apps.

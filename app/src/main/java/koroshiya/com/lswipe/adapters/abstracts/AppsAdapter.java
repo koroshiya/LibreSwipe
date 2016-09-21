@@ -1,11 +1,11 @@
 package koroshiya.com.lswipe.adapters.abstracts;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -13,13 +13,13 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import koroshiya.com.lswipe.R;
 import koroshiya.com.lswipe.util.Util;
@@ -49,9 +49,14 @@ public abstract class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewH
 
         List<String> resultList = Util.getStringListFromFile(getAppsFile(c));
 
-        for (ResolveInfo app : apps) {
-            if (isAddAdapter != resultList.contains(app.activityInfo.name)){
-                items.add(app);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            items.addAll(apps.stream().filter(app -> isAddAdapter != resultList.contains(app.activityInfo.name)).collect(Collectors.toList()));
+        }else{
+            //noinspection Convert2streamapi
+            for (ResolveInfo app : apps) {
+                if (isAddAdapter != resultList.contains(app.activityInfo.name)){
+                    items.add(app);
+                }
             }
         }
 
@@ -145,13 +150,13 @@ public abstract class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewH
         return selected;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private final AppCompatTextView tv_large, tv_small;
         private final AppCompatImageView iv;
         private final CardView view;
 
-        public ViewHolder(CardView itemView) {
+        ViewHolder(CardView itemView) {
             super(itemView);
 
             tv_large = (AppCompatTextView) itemView.findViewById(R.id.vw_item_tv_large);
@@ -160,7 +165,7 @@ public abstract class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewH
             view = itemView;
         }
 
-        public void setDataOnView(int cur) {
+        void setDataOnView(int cur) {
 
             final Context c = iv.getContext();
             final ResolveInfo info = items.get(cur);
@@ -180,42 +185,31 @@ public abstract class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewH
                 view.setCardBackgroundColor(primary);
             }
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            view.setOnClickListener(v -> {
 
-                    if (isAddAdapter){
-                        int cur = getAdapterPosition();
-                        if (selected.contains(info)) {
-                            selected.remove(info);
-                            view.setCardBackgroundColor(primary);
-                        }
-                        else {
-                            selected.add(info);
-                            view.setCardBackgroundColor(secondary);
-                        }
-                        notifyItemChanged(cur);
-                    }else{
-                        new AlertDialog.Builder(c)
-                                .setTitle("Remove app")
-                                .setMessage("Are you sure you want to remove "+appName+" from your "+getType()+" apps?")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        removeApp(c, info);
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
+                if (isAddAdapter){
+                    int cur1 = getAdapterPosition();
+                    if (selected.contains(info)) {
+                        selected.remove(info);
+                        view.setCardBackgroundColor(primary);
                     }
-
+                    else {
+                        selected.add(info);
+                        view.setCardBackgroundColor(secondary);
+                    }
+                    notifyItemChanged(cur1);
+                }else{
+                    new AlertDialog.Builder(c)
+                            .setTitle("Remove app")
+                            .setMessage("Are you sure you want to remove "+appName+" from your "+getType()+" apps?")
+                            .setPositiveButton("OK", (dialog, which) -> {
+                                removeApp(c, info);
+                                dialog.dismiss();
+                            })
+                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                            .show();
                 }
+
             });
         }
     }

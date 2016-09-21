@@ -96,7 +96,7 @@ public class SwipeService extends Service {
         mWindowManager = (WindowManager) getSystemService(Service.WINDOW_SERVICE);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
 
-        v = (DrawerLayout) layoutInflater.inflate(R.layout.activity_swipe, null);
+        v = (DrawerLayout) layoutInflater.inflate(R.layout.activity_swipe, null, false);
         v.addDrawerListener(drawerListener);
 
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.vw_pane_rv);

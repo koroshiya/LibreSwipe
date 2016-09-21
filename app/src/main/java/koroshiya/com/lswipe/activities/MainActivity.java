@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     }else if (checkDrawOverlayPermission()){
                         Snackbar.make(v, "LibreSwipe has been turned on", Snackbar.LENGTH_SHORT).show();
                         startService(SwipeService.getIntent(this));
-                    }else{
+                    }else {
                         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
                         startActivityForResult(intent, 0);
                     }
@@ -151,29 +150,21 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(c)
                 //.setTitle("App chooser")
                 .setView(v)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ArrayList<ResolveInfo> items = ((AppsAdapter)v.getAdapter()).getSelectedItems();
-                        if (items.size() > 0){
-                            Fragment f = getFragment();
-                            if (f instanceof AppsFragment){
-                                Log.d("MainActivity", "is apps fragment");
-                                AppsFragment paf = (AppsFragment) f;
-                                paf.addApps(c, items);
-                            }else{
-                                Log.d("MainActivity", "not apps fragment");
-                            }
-                            dialog.dismiss();
+                .setPositiveButton("OK", (dialog, which) -> {
+                    ArrayList<ResolveInfo> items = ((AppsAdapter)v.getAdapter()).getSelectedItems();
+                    if (items.size() > 0){
+                        Fragment f = getFragment();
+                        if (f instanceof AppsFragment){
+                            Log.d("MainActivity", "is apps fragment");
+                            AppsFragment paf = (AppsFragment) f;
+                            paf.addApps(c, items);
+                        }else{
+                            Log.d("MainActivity", "not apps fragment");
                         }
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
                 .show();
 
     }

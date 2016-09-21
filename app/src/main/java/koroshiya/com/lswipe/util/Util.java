@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 
 import java.io.BufferedReader;
@@ -15,6 +16,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import koroshiya.com.lswipe.services.SwipeService;
 
@@ -59,7 +61,10 @@ public class Util {
     private static void writeStringToFile(File fl, String str) throws IOException {
 
         if (fl.exists() && fl.isFile() && fl.canWrite()){
-            fl.delete();
+            if (!fl.delete()){
+                String msg = String.format(Locale.ENGLISH, "Failed to delete file: %s", fl.getAbsolutePath());
+                Log.w("Util", msg);
+            }
         }
 
         PrintWriter out = new PrintWriter(fl);
@@ -98,7 +103,10 @@ public class Util {
             writeStringToFile(fl, result);
         } catch (IOException e) {
             e.printStackTrace();
-            fl.delete();
+            if (!fl.delete()){
+                String msg = String.format(Locale.ENGLISH, "Failed to delete file: %s", fl.getAbsolutePath());
+                Log.w("Util", msg);
+            }
         }
     }
 
