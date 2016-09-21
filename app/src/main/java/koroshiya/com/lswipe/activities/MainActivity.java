@@ -63,15 +63,21 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.string.str_turn_on_off:
 
-                    if (SwipeService.serviceRunning != null){
+                    if (SwipeService.isRunning){
+
+                        SwipeService.killService(this);
                         Snackbar.make(v, "LibreSwipe has been turned off", Snackbar.LENGTH_SHORT).show();
-                        SwipeService.serviceRunning.stopSelf();
+
                     }else if (checkDrawOverlayPermission()){
+
                         Snackbar.make(v, "LibreSwipe has been turned on", Snackbar.LENGTH_SHORT).show();
                         startService(SwipeService.getIntent(this));
+
                     }else {
+
                         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
                         startActivityForResult(intent, 0);
+
                     }
                     break;
 

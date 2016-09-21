@@ -4,8 +4,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
@@ -24,9 +26,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import koroshiya.com.lswipe.R;
 import koroshiya.com.lswipe.activities.MainActivity;
 import koroshiya.com.lswipe.adapters.SwipeListAdapter;
-import koroshiya.com.lswipe.R;
 
 /**
  * Service which should remain running in the background.
@@ -39,9 +41,34 @@ public class SwipeService extends Service {
     private WindowManager.LayoutParams mPaperParams;
     private DrawerLayout v;
     private int drawer_width_dp;
+    public static boolean isRunning = false;
 
-    public static SwipeService serviceRunning = null;
     private final static int PERSISTENT_NOTIFICATION = 0;
+    public final static String KILL_SERVICE = "kill_service", RESTART_SERVICE = "restart_service";
+
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+            if (action.equals(KILL_SERVICE)){
+
+                Log.i("SS", "Killing service...");
+                stopSelf();
+                isRunning = false;
+
+            }else if (action.equals(RESTART_SERVICE)){
+
+                Intent i = new Intent();
+                i.setAction(SwipeService.KILL_SERVICE);
+                onReceive(context, i);
+
+                Log.i("SS", "Starting service...");
+                startService(SwipeService.getIntent(context));
+            }
+
+        }
+    };
 
     private final DrawerLayout.DrawerListener drawerListener = new DrawerLayout.SimpleDrawerListener() {
 
@@ -61,8 +88,27 @@ public class SwipeService extends Service {
 
     };
 
+    public static void killService(Context c){
+
+        Intent i = new Intent();
+        i.setAction(SwipeService.KILL_SERVICE);
+        c.sendBroadcast(i);
+
+    }
+
     public static Intent getIntent(Context context) {
         return new Intent(context, SwipeService.class);
+    }
+
+    @Override
+    public void onCreate(){
+        super.onCreate();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(KILL_SERVICE);
+
+        registerReceiver(receiver, filter);
+
     }
 
     @Override
@@ -127,8 +173,8 @@ public class SwipeService extends Service {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
             builder.setContentIntent(contentIntent)
-                    .setSmallIcon(R.drawable.icon)
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.icon))
+                    .setSmallIcon(R.drawable.ic_touch_app_white_24dp)
+                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.ic_touch_app_white_24dp))
                     .setTicker("LibreSwipe is running - Tap to open settings")
                     .setWhen(System.currentTimeMillis())
                     .setAutoCancel(true)
@@ -139,7 +185,7 @@ public class SwipeService extends Service {
             nm.notify(PERSISTENT_NOTIFICATION, n);
         }
 
-        serviceRunning = this;
+        isRunning = true;
 
         return START_STICKY;
     }
@@ -148,7 +194,13 @@ public class SwipeService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        serviceRunning = null;
+        isRunning = false;
+
+        try{
+            unregisterReceiver(receiver);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         if (v != null) {
             mWindowManager.removeView(v);

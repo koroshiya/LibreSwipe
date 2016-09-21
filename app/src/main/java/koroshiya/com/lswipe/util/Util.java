@@ -119,12 +119,12 @@ public class Util {
 
     public static void restartSwipeServiceIfNeeded(View v){
 
-        if (SwipeService.serviceRunning != null){
-            Context c = v.getContext();
-            Snackbar.make(v, "LibreSwipe settings/apps updated", Snackbar.LENGTH_SHORT).show();
-            SwipeService.serviceRunning.stopSelf();
-            c.startService(SwipeService.getIntent(c));
-        }
+        Context c = v.getContext();
+        Snackbar.make(v, "LibreSwipe settings/apps updated", Snackbar.LENGTH_SHORT).show();
+
+        Intent i = new Intent();
+        i.setAction(SwipeService.RESTART_SERVICE);
+        c.sendBroadcast(i);
 
     }
 
